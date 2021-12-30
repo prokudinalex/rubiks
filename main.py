@@ -46,8 +46,7 @@ class Color(Enum):
 class Face:
     """Face contains of 9 elements with some colors"""
 
-    def __init__(self, side, colors):
-        self.side = side
+    def __init__(self, colors):
         self.colors = []
         self.size = 3
         if isinstance(colors, str):
@@ -57,16 +56,15 @@ class Face:
             self.colors = colors
 
     def __str__(self):
-        return "---{0}---\n{1}\n{2}\n{3}"\
-            .format(self.side,
-                    '\t'.join(map(str, map(lambda c: c.get_color_letter(), self.get_row(0)))),
+        return "{0}\n{1}\n{2}"\
+            .format('\t'.join(map(str, map(lambda c: c.get_color_letter(), self.get_row(0)))),
                     '\t'.join(map(str, map(lambda c: c.get_color_letter(), self.get_row(1)))),
                     '\t'.join(map(str, map(lambda c: c.get_color_letter(), self.get_row(2)))))
-
 
     def get_row(self, i):
         # TODO: check input indexes
         return [self.colors[i * self.size], self.colors[i * self.size + 1], self.colors[i * self.size + 2]]
+
 
 class Cube:
     """Simple data model of Rubik's Cube"""
@@ -75,7 +73,7 @@ class Cube:
         self.faces = faces
 
     def __str__(self):
-        return '\n'.join(map(str, cube.faces))
+        return '\n'.join(map(lambda x: "---{0}---\n{1}".format(x[0], x[1]), self.faces.items()))
 
 
 # input cube faces
@@ -88,13 +86,13 @@ print("Input colors could be one of: " + str(Color.letters()))
 #     print(face)
 #     faces.append(face)
 
-faces = [
-    Face(Side.Front, "rbryrowyb"),
-    Face(Side.Right, "ggowggrbw"),
-    Face(Side.Back, "ygwwogoyb"),
-    Face(Side.Left, "grbrbrobo"),
-    Face(Side.Up, "rogwyyyry"),
-    Face(Side.Bottom, "gbwowwyob")
-]
-cube = Cube(faces)
+inputFaces = {
+    Side.Front: Face("rbryrowyb"),
+    Side.Right: Face("ggowggrbw"),
+    Side.Back: Face("ygwwogoyb"),
+    Side.Left: Face("grbrbrobo"),
+    Side.Up: Face("rogwyyyry"),
+    Side.Bottom: Face("gbwowwyob")
+}
+cube = Cube(inputFaces)
 print("\n\nYour Cube:\n" + str(cube))
