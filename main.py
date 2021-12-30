@@ -75,6 +75,14 @@ class Cube:
     def __str__(self):
         return '\n'.join(map(lambda x: "---{0}---\n{1}".format(x[0], x[1]), self.faces.items()))
 
+    def rotateCube(self, side, rotation):
+        if side == Side.Up:
+            front = self.faces[Side.Front]
+            self.faces[Side.Front] = self.faces[Side.Right]
+            self.faces[Side.Right] = self.faces[Side.Back]
+            self.faces[Side.Back] = self.faces[Side.Left]
+            self.faces[Side.Left] = front
+
 
 # input cube faces
 print("Input colors could be one of: " + str(Color.letters()))
@@ -87,12 +95,15 @@ print("Input colors could be one of: " + str(Color.letters()))
 #     faces.append(face)
 
 inputFaces = {
-    Side.Front: Face("rbryrowyb"),
-    Side.Right: Face("ggowggrbw"),
-    Side.Back: Face("ygwwogoyb"),
-    Side.Left: Face("grbrbrobo"),
-    Side.Up: Face("rogwyyyry"),
-    Side.Bottom: Face("gbwowwyob")
+    Side.Front: Face("rrrrrrrrr"),
+    Side.Right: Face("ggggggggg"),
+    Side.Back: Face("ooooooooo"),
+    Side.Left: Face("bbbbbbbbb"),
+    Side.Up: Face("yyyyyyyyy"),
+    Side.Bottom: Face("wwwwwwwww")
 }
 cube = Cube(inputFaces)
 print("\n\nYour Cube:\n" + str(cube))
+
+cube.rotateCube(Side.Up, 1)
+print("\n\nYour Cube After rotate:\n" + str(cube))
